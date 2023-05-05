@@ -23,6 +23,9 @@ public class ReadFile implements Input {
   @Override
   public Measurement readInput(String filename) throws IOException {
 
+    // TODO file not found ?
+    // TODO no write access
+
     List<ExampleData> exampleData = new ArrayList<>();
     try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
       String line;
