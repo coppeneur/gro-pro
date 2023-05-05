@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ReadFile implements Input {
 
-  String filename;
+  private String filename;
 
   public ReadFile(String filename) {
     this.filename = filename;
