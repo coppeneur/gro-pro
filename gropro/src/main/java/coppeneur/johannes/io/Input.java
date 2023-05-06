@@ -11,5 +11,5 @@ import java.io.IOException;
  */
 public interface Input {
 
-  Measurement readInput(String filename) throws IOException;
+  Measurement readInput() throws IOException;
 }

@@ -13,6 +13,24 @@ import java.io.IOException;
 public class WriteFile implements Output {
 
   private static final String FILE_HEADER = "HEADER";
+  private final File file;
+
+  public WriteFile(String path) throws IOException {
+    this.file = new File(path);
+    // create output dir
+    // if(new File("out"))
+    if (file.getParentFile() == null) {
+
+    }
+    file.getParentFile().mkdirs();
+    file.createNewFile();
+//    if (!file.isFile()) {
+//      throw new IOException(String.format("%s is not a file", this.file.getPath()));
+//    }
+    if (!file.canWrite()) {
+      throw new IOException(String.format("Denied write access to %s", this.file.getPath()));
+    }
+  }
 
   @Override
   public void writeFile(Measurement measurement) {
@@ -20,9 +38,8 @@ public class WriteFile implements Output {
     String filename = "out{0}.txt";
 
     try {
-      File file = new File("out/" + filename);
-      file.getParentFile().mkdirs();
-      BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+      this.file.getParentFile().mkdirs();
+      BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
       writer.write(output);
       writer.close();
     } catch (IOException e) {
