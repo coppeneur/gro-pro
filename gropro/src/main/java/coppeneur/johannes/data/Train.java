@@ -2,6 +2,7 @@ package coppeneur.johannes.data;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -9,21 +10,30 @@ import java.util.stream.Collectors;
  */
 public class Train {
 
-    private Set<Station> stations;
+    private Set<String> stations;
 
-    public Train(HashSet<Station> stations) {
+    private String name;
+    // TODO GEREON HELP PLS
+//    private Set<Station> stations;
+
+    public Train(TreeSet<String> stations) {
         this.stations = stations;
     }
 
-    public Train(Set<String> stations) {
-        this.stations = stations.stream().map(Station::new).collect(Collectors.toSet());
+    public Train(Set<String> stations, String name) {
+        this.stations = stations.stream().map(String::new).collect(Collectors.toSet());
+        this.name = name;
     }
 
-    public Set<Station> getStations() {
+    public String getName() {
+        return this.name;
+    }
+
+    public Set<String> getStations() {
         return stations;
     }
 
-    public void setStations(HashSet<Station> stations) {
+    public void setStations(HashSet<String> stations) {
         this.stations = stations;
     }
 
@@ -32,9 +42,9 @@ public class Train {
         return "Train{" + "\nStations=" + stations + "\n}";
     }
 
-    public boolean contains(Set<Station> subset) {
-        return subset.stream().allMatch(station -> this.stations.contains(station.getName()));
-    }
+//    public boolean contains(Set<Station> subset) {
+//        return subset.stream().allMatch(station -> this.stations.contains(station.getName()));
+//    }
 
 //    public boolean contains(Set<Station> stationsToCompare) {
 //

@@ -47,7 +47,7 @@ public class TrainReductionStrategy implements ReductionStrategy {
             for (int j = i + 1; j < trains.size(); j++) {
                 Train trainB = trains.get(j);
 
-                if (trainB.getStations() instanceof HashSet<Station>) {
+                if (trainB.getStations() instanceof HashSet<String>) {
                     int hier = 1;
                 }
                 if (trains.get(i) == trains.get(j)) {
@@ -56,20 +56,21 @@ public class TrainReductionStrategy implements ReductionStrategy {
 
                 if (trains.get(i).getStations().size() > trains.get(j).getStations().size()) {
 
-                    if (trainA.contains(trainB.getStations())) {
-                        int here = 1;
-                    }
+//                    if (trainA.contains(trainB.getStations())) {
+//                        int here = 1
+//                    }
 
                     if (trains.get(i).getStations().containsAll(trains.get(j).getStations())) {
                         toRemove.add(trains.get(i));
                     }
-
                 } else if (trains.get(i).getStations().size() < trains.get(j).getStations().size()) {
 
                     if (trains.get(j).getStations().containsAll(trains.get(i).getStations())) {
                         toRemove.add(trains.get(j));
                     }
 
+                } else {
+                    // bei gleicher länge müssen sie identisch sein sonst ist es quatsch
                 }
             }
         }

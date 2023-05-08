@@ -32,6 +32,7 @@ public class ReadFile implements Input {
         List<Train> trains = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+            int trainCount = 1;
 
             while ((line = reader.readLine()) != null) {
                 if (line.length() == 0) {
@@ -44,7 +45,8 @@ public class ReadFile implements Input {
                     continue;
                 }
                 String[] stationsArray = line.split(";");
-                trains.add(new Train(new HashSet<>(Arrays.stream(stationsArray).collect(Collectors.toSet()))));
+                trains.add(new Train(new HashSet<>(Arrays.stream(stationsArray).collect(Collectors.toSet())), String.valueOf(trainCount)));
+                trainCount++;
             }
             // mach etwas mit dem file name
             // int measurementNum = Integer.parseInt(filename.substring(0, filename.indexOf(".txt")));
