@@ -1,12 +1,18 @@
 package coppeneur.johannes;
 
-import coppeneur.johannes.data.Measurement;
+import coppeneur.johannes.data.Station;
+import coppeneur.johannes.data.Train;
 import coppeneur.johannes.io.Input;
 import coppeneur.johannes.io.Output;
 import coppeneur.johannes.io.ReadFile;
 import coppeneur.johannes.io.WriteFile;
+import coppeneur.johannes.util.ReductionStrategy;
+import coppeneur.johannes.util.TrainReductionStrategy;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     private static final String OUTPUT_FILE_PATH_DEFAULT = "output/output.txt";
@@ -30,7 +36,7 @@ public class Main {
 
         // input output file
         if (args == null || args.length == 0) {
-            throw new RuntimeException("No input file declared");
+//            throw new RuntimeException("No input file declared");
 
         } else if (args.length == 1) {
             System.out.println("1 input params");
@@ -55,18 +61,38 @@ public class Main {
         try {
             File test = new File("hs.produktion");
             System.out.println(test.getAbsolutePath());
-            handleArgs(new String[]{"src/main/resources/test.txt"});
+            handleArgs(new String[]{"src/main/resources/test.in"});
             // lets test reading files
             // https://www.geeksforgeeks.org/the-knights-tour-problem/
             // String path = "src/main/resources/test.txt";
             Input readFile = new ReadFile(INPUT_FILE_PATH);
-            Measurement measurement = readFile.readInput();
-            System.out.println(measurement);
+            List<Train> trains = readFile.readInput();
+
+
+            System.out.println(trains);
+
+
+            testTrainReductionStrategy();
             Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
-            writeFile.writeFile(measurement);
+//            writeFile.writeFile(measurement);
 
         } catch (Exception e) {
             System.out.println("In main: \n" + e.toString());
         }
+    }
+
+
+    static void testTrainReductionStrategy() {
+        try {
+            ReadFile readFile = new ReadFile("resources/Reduction3.txt");
+            List<Train> trains = new ArrayList<>();
+            trains = readFile.readInput();
+            ReductionStrategy strategy3 = new TrainReductionStrategy();
+
+            System.out.println(strategy3.reduce(trains));
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+
     }
 }

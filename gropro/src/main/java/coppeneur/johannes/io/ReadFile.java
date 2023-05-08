@@ -1,11 +1,11 @@
 package coppeneur.johannes.io;
 
-import coppeneur.johannes.data.ExampleData;
-import coppeneur.johannes.data.Measurement;
+import coppeneur.johannes.data.Station;
+import coppeneur.johannes.data.Train;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Johannes Coppeneur
@@ -16,6 +16,7 @@ public class ReadFile implements Input {
 
     public ReadFile(String filename) throws FileNotFoundException {
         this.file = new File(filename);
+        System.out.println(file.getPath());
         if (!this.file.isFile()) {
             throw new FileNotFoundException(String.format("file: %s not found", filename));
         }
@@ -26,25 +27,24 @@ public class ReadFile implements Input {
     }
 
     @Override
-    public Measurement readInput() throws IOException {
+    public List<Train> readInput() throws IOException {
 
-        List<ExampleData> exampleData = new ArrayList<>();
+        List<Train> trains = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
 
             while ((line = reader.readLine()) != null) {
                 if (line.length() == 0) {
-                    System.out.println("Empty line: " + line);
+//                    System.out.println("Empty line: " + line);
                     continue;
                 }
                 // remove comment
                 if (line.startsWith("#")) {
-                    System.out.println("Kommentar: " + line);
-
+//                    System.out.println("Kommentar: " + line);
                     continue;
                 }
-                String[] yx = line.split("\\s+");
-                exampleData.add(new ExampleData(Integer.parseInt(yx[1]), Integer.parseInt(yx[0])));
+                String[] stationsArray = line.split(";");
+                trains.add(new Train(new HashSet<>(Arrays.stream(stationsArray).collect(Collectors.toSet()))));
             }
             // mach etwas mit dem file name
             // int measurementNum = Integer.parseInt(filename.substring(0, filename.indexOf(".txt")));
@@ -52,7 +52,6 @@ public class ReadFile implements Input {
         } catch (IOException e) {
             System.out.println(e.toString());
         }
-
-        return new Measurement(exampleData);
+        return trains;
     }
 }

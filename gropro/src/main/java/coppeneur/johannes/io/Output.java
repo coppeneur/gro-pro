@@ -1,7 +1,8 @@
 package coppeneur.johannes.io;
 
-import coppeneur.johannes.data.Measurement;
+
+import java.util.List;
 
 public interface Output {
-  void writeFile(Measurement measurement);
+  void writeFile(List<String>  list);
 }

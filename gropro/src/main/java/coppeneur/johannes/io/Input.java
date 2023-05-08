@@ -1,8 +1,10 @@
 package coppeneur.johannes.io;
 
-import coppeneur.johannes.data.Measurement;
+import coppeneur.johannes.data.Station;
+import coppeneur.johannes.data.Train;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Interface for an input strategy.
@@ -11,5 +13,5 @@ import java.io.IOException;
  */
 public interface Input {
 
-  Measurement readInput() throws IOException;
+  List<Train> readInput() throws IOException;
 }

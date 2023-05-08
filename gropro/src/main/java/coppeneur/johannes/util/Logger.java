@@ -1,4 +1,4 @@
-package coppeneur.johannes.util.logging;
+package coppeneur.johannes.util;
 /**
  * @author Johannes Coppeneur
  */
