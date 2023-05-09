@@ -29,9 +29,9 @@ public class Solver {
 
             Optional<Map.Entry<String, Integer>> mostFrequentStation = Util.countFrequencies(allStations).entrySet().stream().max(Map.Entry.comparingByValue());
 
-            if (mostFrequentStation.isEmpty()) {
-                System.out.println("mostFrequentStation ist Empty. Kann das sein?");
-            }
+//            if (mostFrequentStation.isEmpty()) {
+//                System.out.println("mostFrequentStation ist Empty. Kann das sein?");
+//            }
 
             String currenServiceStation;
             currenServiceStation = mostFrequentStation.map(Map.Entry::getKey).orElse(null);

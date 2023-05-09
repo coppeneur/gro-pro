@@ -10,7 +10,6 @@ import coppeneur.johannes.util.Solver;
 import coppeneur.johannes.util.StationReductionStrategy;
 import coppeneur.johannes.util.TrainReductionStrategy;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +38,15 @@ public class Main {
 
         // input output file
         if (args.length == 0) {
-//            throw new RuntimeException("No input file declared");
+            throw new RuntimeException("No input file declared.");
 
         } else if (args.length == 1) {
             System.out.println("1 input params");
             // input file
             // output file default
             INPUT_FILE_PATH = args[0];
-            OUTPUT_FILE_PATH = OUTPUT_FILE_PATH_DEFAULT;
+
+            OUTPUT_FILE_PATH = "output/" + args[0] + ".out";
 
         } else if (args.length == 2) {
             System.out.println("2 input params");
@@ -62,13 +62,13 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            String [] test = new String[]{"src/main/resources/ErrorCases/ErrorCase1.txt"};
+            String [] test = new String[]{"src/main/resources/Beispiel2.txt"};
 
             handleArgs(test);
 
             Input readFile = new ReadFile(INPUT_FILE_PATH);
             List<Train> trains = readFile.readInput();
-
+            System.out.println(trains);
             List<ReductionStrategy> reductionStrategies = new ArrayList<>();
             reductionStrategies.add(new StationReductionStrategy());
             reductionStrategies.add(new TrainReductionStrategy());
@@ -95,7 +95,7 @@ public class Main {
             writeFile.writeFile(solver.getMinServiceStation(trains));
 
         } catch (Exception e) {
-            System.out.println("In main: \n" + e.toString());
+            System.out.println("\n" + e);
         }
     }
 }

@@ -17,6 +17,8 @@ public class ReadFile implements Input {
      * //TODO DEFAULT? FILE NAME
      * Object of File to be read.
      */
+    private static final String LINE_REGEX = "^(?:[a-zA-Z]+;)+[a-zA-Z]*$";
+    private static final String COMMENT_PATTERN = "#";
     private File file;
 
     /**
@@ -31,8 +33,7 @@ public class ReadFile implements Input {
         if (!this.file.isFile()) {
             throw new FileNotFoundException(String.format("file: %s not found", filename));
         }
-        // TODO no write access
-        if(!this.file.canRead()){
+        if (!this.file.canRead()) {
             throw new IOException(String.format("Can't access file: %s", filename));
         }
     }
@@ -48,28 +49,31 @@ public class ReadFile implements Input {
     public List<Train> readInput() throws IOException {
 
         List<Train> trains = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
 
-            while ((line = reader.readLine()) != null) {
-                if (line.length() == 0) {
+
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            if (line.length() == 0) {
 //                    System.out.println("Empty line: " + line);
-                    continue;
-                }
-                // remove comment
-                if (line.startsWith("#")) {
+                continue;
+            }
+            line = line.trim();
+            // remove comment
+            if (line.startsWith(COMMENT_PATTERN)) {
 //                    System.out.println("Kommentar: " + line);
-                    continue;
-                }
+                continue;
+            }
+            if (line.matches(LINE_REGEX)) {
                 String[] stationsArray = line.split(";");
                 trains.add(new Train(new HashSet<>(Arrays.stream(stationsArray).collect(Collectors.toSet()))));
             }
-            // mach etwas mit dem file name
-            // int measurementNum = Integer.parseInt(filename.substring(0, filename.indexOf(".txt")));
-
-        } catch (IOException e) {
-            System.out.println(e.toString());
         }
+        if (trains.isEmpty()) {
+            throw new IOException(String.format("No trains found in file: %s", file.getName()));
+        }
+
         return trains;
     }
 }
