@@ -1,2 +1,1 @@
-# gro-pro
-Große Prog 2023
+# Loesung von der Großen Prog 2023
