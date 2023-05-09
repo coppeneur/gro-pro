@@ -53,6 +53,7 @@ public class Train {
     }
 
     /**
+     * Returns a string representation of the train route.
      * @return Returns a string representation of the train route.
      */
     @Override
