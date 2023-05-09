@@ -1,8 +1,6 @@
 package coppeneur.johannes.io;
 
 
-import coppeneur.johannes.data.Train;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -57,26 +55,26 @@ public class WriteFile implements Output {
      */
     @Override
     public void writeFile(List<String> strings) {
-    String output = getOutputString(strings);
-    String filename = "out{0}.txt";
-    try {
-      this.file.getParentFile().mkdirs();
-      BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-      writer.write(output);
-      writer.close();
-    } catch (IOException e) {
-      System.out.println(e.toString());
-      throw new RuntimeException(e);
-    }
+        String output = getOutputString(strings);
+//    String filename = "out{0}.txt";
+        try {
+            this.file.getParentFile().mkdirs();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
+            writer.write(output);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(e.toString());
+            throw new RuntimeException(e);
+        }
     }
 
-  private String getOutputString(List<String> trains) {
-    StringBuilder outputString = new StringBuilder(FILE_TEMPLATE);
-      for (String train : trains) {
-          outputString.append(train).append(";");
-      }
-      outputString.deleteCharAt(outputString.length()-1);
-      System.out.println(outputString);
-      return outputString.toString();
-  }
+    private String getOutputString(List<String> trains) {
+        StringBuilder outputString = new StringBuilder(FILE_TEMPLATE);
+        for (String train : trains) {
+            outputString.append(train).append(";");
+        }
+        outputString.deleteCharAt(outputString.length() - 1);
+        System.out.println(outputString);
+        return outputString.toString();
+    }
 }
