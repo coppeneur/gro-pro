@@ -25,16 +25,16 @@ public class ReadFile implements Input {
      * @param filename Name of the file to be read
      * @throws FileNotFoundException if the File is not Found
      */
-    public ReadFile(String filename) throws FileNotFoundException {
+    public ReadFile(String filename) throws IOException {
         this.file = new File(filename);
         System.out.println(file.getPath());
         if (!this.file.isFile()) {
             throw new FileNotFoundException(String.format("file: %s not found", filename));
         }
-        // TODO no write accessx
-//    if(!this.file.canRead()){
-//      throw new File
-//    }
+        // TODO no write access
+        if(!this.file.canRead()){
+            throw new IOException(String.format("Can't access file: %s", filename));
+        }
     }
 
     /**

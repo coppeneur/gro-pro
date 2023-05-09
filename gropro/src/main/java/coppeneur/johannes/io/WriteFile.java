@@ -1,7 +1,11 @@
 package coppeneur.johannes.io;
 
 
+import coppeneur.johannes.data.Train;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,7 +19,7 @@ public class WriteFile implements Output {
     /**
      * TODO BRAUCH ICH DEN ?
      */
-    private static final String FILE_HEADER = "HEADER";
+    private static final String FILE_TEMPLATE = "Servicestationen in: ";
 
     /**
      * File to be written to.
@@ -53,23 +57,26 @@ public class WriteFile implements Output {
      */
     @Override
     public void writeFile(List<String> strings) {
-//    String output = getOutputString(measurement);
-        String filename = "out{0}.txt";
-        // TODO
-//    try {
-//      this.file.getParentFile().mkdirs();
-//      BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
-//      writer.write(strings.size());
-//      writer.close();
-//    } catch (IOException e) {
-//      System.out.println(e.toString());
-//      throw new RuntimeException(e);
-//    }
+    String output = getOutputString(strings);
+    String filename = "out{0}.txt";
+    try {
+      this.file.getParentFile().mkdirs();
+      BufferedWriter writer = new BufferedWriter(new FileWriter(this.file));
+      writer.write(output);
+      writer.close();
+    } catch (IOException e) {
+      System.out.println(e.toString());
+      throw new RuntimeException(e);
+    }
     }
 
-//  private String getOutputString(Measurement measurement) {
-//    StringBuilder outputString = new StringBuilder(FILE_HEADER);
-//
-//    return outputString.append("\n\n").append(measurement.toString()).toString();
-//  }
+  private String getOutputString(List<String> trains) {
+    StringBuilder outputString = new StringBuilder(FILE_TEMPLATE);
+      for (String train : trains) {
+          outputString.append(train).append(";");
+      }
+      outputString.deleteCharAt(outputString.length()-1);
+      System.out.println(outputString);
+      return outputString.toString();
+  }
 }

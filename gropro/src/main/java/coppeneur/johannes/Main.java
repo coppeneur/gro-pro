@@ -27,18 +27,18 @@ public class Main {
 
         // number handeling
 
-        //    int firstArg;
-        //    if (args.length > 0) {
-        //      try {
-        //        firstArg = Integer.parseInt(args[0]);
-        //      } catch (NumberFormatException e) {
-        //        System.err.println("Argument" + args[0] + " must be an integer.");
-        //        System.exit(1);
-        //      }
-        //    }
+//            int firstArg;
+//            if (args.length > 0) {
+//              try {
+//                firstArg = Integer.parseInt(args[0]);
+//              } catch (NumberFormatException e) {
+//                System.err.println("Argument" + args[0] + " must be an integer.");
+//                System.exit(1);
+//              }
+//            }
 
         // input output file
-        if (args == null || args.length == 0) {
+        if (args.length == 0) {
 //            throw new RuntimeException("No input file declared");
 
         } else if (args.length == 1) {
@@ -62,10 +62,9 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            File test = new File("hs.produktion");
-            System.out.println(test.getAbsolutePath());
-            handleArgs(new String[]{"src/main/resources/gereon5.txt"});
+            String [] test = new String[]{"src/main/resources/ErrorCases/ErrorCase1.txt"};
 
+            handleArgs(test);
 
             Input readFile = new ReadFile(INPUT_FILE_PATH);
             List<Train> trains = readFile.readInput();
@@ -76,27 +75,24 @@ public class Main {
             System.out.println("START ");
             System.out.println(trains);
 
-            int i = 2;
+//            int i = 2;
             for (ReductionStrategy reduction : reductionStrategies) {
-                System.out.println("\n");
-                System.out.println("Reduktion " + i);
+//                System.out.println("\n");
+//                System.out.println("Reduktion " + i);
 
                 trains = reduction.reduce(trains);
-                System.out.println(trains);
-                System.out.println("\n");
-                i++;
+//                System.out.println(trains);
+//                System.out.println("\n");
+//                i++;
             }
 
 
             Solver solver = new Solver();
-            System.out.println(trains);
-            System.out.println("\n");
-            System.out.println(solver.getMinServiceStation(trains));
+//            System.out.println(trains);
+//            System.out.println("\n");
 
-
-//            testTrainReductionStrategy();
             Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
-//            writeFile.writeFile(measurement);
+            writeFile.writeFile(solver.getMinServiceStation(trains));
 
         } catch (Exception e) {
             System.out.println("In main: \n" + e.toString());
