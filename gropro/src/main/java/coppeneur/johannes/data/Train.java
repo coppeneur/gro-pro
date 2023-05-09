@@ -12,16 +12,21 @@ public class Train {
 
     private Set<String> stations;
 
+    // TODO Erweiterbarkeit ist besser gegeben wenn Station eine Klasse wird
+    // TODO HashFunktion überschreiben damit compare klappt
+    // TODO Liste von Map von String zu Station
+
     private String name;
     // TODO GEREON HELP PLS
 //    private Set<Station> stations;
 
-    public Train(TreeSet<String> stations) {
+    public Train(Set<String> stations) {
         this.stations = stations;
     }
 
     public Train(Set<String> stations, String name) {
-        this.stations = stations.stream().map(String::new).collect(Collectors.toSet());
+//        this.stations = stations.stream().map(String::new).collect(Collectors.toSet());
+        this.stations = new HashSet<>(stations);
         this.name = name;
     }
 
@@ -33,8 +38,12 @@ public class Train {
         return stations;
     }
 
-    public void setStations(HashSet<String> stations) {
+    public void setStations(Set<String> stations) {
         this.stations = stations;
+    }
+
+    public void removeStation(String station) {
+        this.stations.remove(station);
     }
 
     @Override

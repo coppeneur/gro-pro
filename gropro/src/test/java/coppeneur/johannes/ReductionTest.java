@@ -35,7 +35,71 @@ public class ReductionTest {
     @Test
     void testStationReductionStrategy() {
         try {
+
+            //TODO
+            // OBJ PARSEN
+            // schöner PRINTER für Train Liste?
             ReadFile readFile = new ReadFile("src/main/resources/Reduction2.txt");
+            List<Train> trains = new ArrayList<>();
+            trains = readFile.readInput();
+            ReductionStrategy strategy2 = new StationReductionStrategy();
+
+            System.out.println(strategy2.reduce(trains));
+
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+
+    }
+    @Test
+    void testBastiStationReductionStrategy() {
+        try {
+
+            //TODO
+            // OBJ PARSEN
+            // schöner PRINTER für Train Liste?
+            ReadFile readFile = new ReadFile("src/main/resources/Reduktion2Basti.txt");
+            List<Train> trains = new ArrayList<>();
+            trains = readFile.readInput();
+            ReductionStrategy strategy2 = new StationReductionStrategy();
+
+            System.out.println(strategy2.reduce(trains));
+
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+
+    }
+
+    @Test
+    void testAlgoBspStationReductionStrategy() {
+        try {
+
+            //TODO
+            // OBJ PARSEN
+            // schöner PRINTER für Train Liste?
+            ReadFile readFile = new ReadFile("src/main/resources/test.in");
+            List<Train> trains = new ArrayList<>();
+            trains = readFile.readInput();
+            ReductionStrategy strategy2 = new StationReductionStrategy();
+
+            System.out.println(strategy2.reduce(trains));
+
+        } catch (IOException e) {
+            System.out.println(e.toString());
+        }
+
+    }
+
+
+    @Test
+    void testRANDOMStationReductionStrategy() {
+        try {
+
+            //TODO
+            // OBJ PARSEN
+            // schöner PRINTER für Train Liste?
+            ReadFile readFile = new ReadFile("src/main/resources/random.txt");
             List<Train> trains = new ArrayList<>();
             trains = readFile.readInput();
             ReductionStrategy strategy2 = new StationReductionStrategy();

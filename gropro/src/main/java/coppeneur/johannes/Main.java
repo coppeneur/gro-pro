@@ -7,6 +7,8 @@ import coppeneur.johannes.io.Output;
 import coppeneur.johannes.io.ReadFile;
 import coppeneur.johannes.io.WriteFile;
 import coppeneur.johannes.util.ReductionStrategy;
+import coppeneur.johannes.util.Solver;
+import coppeneur.johannes.util.StationReductionStrategy;
 import coppeneur.johannes.util.TrainReductionStrategy;
 
 import java.io.File;
@@ -61,18 +63,38 @@ public class Main {
         try {
             File test = new File("hs.produktion");
             System.out.println(test.getAbsolutePath());
-            handleArgs(new String[]{"src/main/resources/test.in"});
-            // lets test reading files
-            // https://www.geeksforgeeks.org/the-knights-tour-problem/
-            // String path = "src/main/resources/test.txt";
+            handleArgs(new String[]{"src/main/resources/gereon4.txt"});
+
+
             Input readFile = new ReadFile(INPUT_FILE_PATH);
             List<Train> trains = readFile.readInput();
 
-
+            List<ReductionStrategy> reductionStrategies = new ArrayList<>();
+            reductionStrategies.add(new StationReductionStrategy());
+            reductionStrategies.add(new TrainReductionStrategy());
+            System.out.println("START ");
             System.out.println(trains);
 
+            int i = 2;
+            for (ReductionStrategy reduction : reductionStrategies) {
+                System.out.println("\n");
+                System.out.println("Reduktion "+ i);
 
-            testTrainReductionStrategy();
+                trains = reduction.reduce(trains);
+                System.out.println(trains);
+                System.out.println("\n");
+                i++;
+            }
+
+
+            Solver solver = new Solver();
+            System.out.println(trains);
+            System.out.println("\n");
+            System.out.println(solver.getMinServiceStation(trains));
+
+
+
+//            testTrainReductionStrategy();
             Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
 //            writeFile.writeFile(measurement);
 

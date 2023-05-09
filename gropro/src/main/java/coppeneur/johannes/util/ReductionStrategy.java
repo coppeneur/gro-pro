@@ -8,6 +8,7 @@ import java.util.List;
  * @author Johannes Coppeneur
  */
 public interface ReductionStrategy {
+    // TODO FASSADE - MUSTER ???
 
     List<Train> reduce(List<Train> trains);
 }
