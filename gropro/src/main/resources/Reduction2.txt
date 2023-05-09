@@ -3,3 +3,28 @@ S;DA;H;K
 FFM;DA;H;K
 M;DA;H;B
 C;M;H;E
+
+# solution after reduction 2 should be
+#   S;H
+#   FFM;H
+#   H;B
+#   C;H;E
+
+
+#S = 1
+#DA = 123
+#H = 1234
+#K = 12
+#
+#
+#DA = 3x DA 3xH 2xK rest 1
+#
+#S = 1
+#DA = 123
+#H = 1234
+#K = 12
+#
+
+
+
+

@@ -2,54 +2,44 @@ package coppeneur.johannes.util;
 
 import coppeneur.johannes.data.Train;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
+ * Class which contains a Method to find the minimum of Servicestations of a given List of Trains
+ *
  * @author Johannes Coppeneur
  */
 public class Solver {
 
-    List<String> serviceStations = new ArrayList<>();
+    /**
+     * Method to get the Minimum service-stations of a List of Train with a greedy approach
+     *
+     * @param trains List of trains
+     * @return List of Strings, with the names of the Service-points
+     */
+    public List<String> getMinServiceStation(List<Train> trains) {
 
-    public List<String> getServiceStation(List<Train> trains) {
+        List<String> serviceStations = new ArrayList<>();
 
-        if (trains.isEmpty()) {
-            return serviceStations;
-        }
+        while (!trains.isEmpty()) {
 
-        // alle stationen
-        List<String> allStations = trains.stream()
-                .flatMap(train -> train.getStations().stream())
-                .toList();
+            List<String> allStations = trains.stream()
+                    .flatMap(train -> train.getStations().stream())
+                    .toList();
 
-        Map<String, Long> stationCountMap = allStations.stream()
-                .collect(Collectors.groupingBy(station -> station, Collectors.counting()));
+            Optional<Map.Entry<String, Integer>> mostFrequentStation = Util.countFrequencies(allStations).entrySet().stream().max(Map.Entry.comparingByValue());
 
-        Optional<Map.Entry<String, Long>> mostFrequentStation =
-                stationCountMap.entrySet().stream()
-                        .max(Map.Entry.comparingByValue());
-
-
-        if (mostFrequentStation.isPresent()) {
-            List<Train> toRemove = new ArrayList<>();
-            for (Train train : trains) {
-
-                if (train.getStations().contains(mostFrequentStation.get())) {
-                    toRemove.add(train);
-                }
-
+            if (mostFrequentStation.isEmpty()) {
+                System.out.println("mostFrequentStation ist Empty. Kann das sein?");
             }
-            trains.removeAll(toRemove);
+
+            String currenServiceStation;
+            currenServiceStation = mostFrequentStation.map(Map.Entry::getKey).orElse(null);
+            serviceStations.add(currenServiceStation);
+            trains = trains.stream().filter(train -> !train.getStations().contains(currenServiceStation)).toList();
         }
 
-        serviceStations.add(mostFrequentStation.get().getKey().toString());
-
-        // TODO wieder aufrufen?
-
+        return serviceStations;
     }
 
 }

@@ -2,53 +2,61 @@ package coppeneur.johannes.data;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 /**
+ * The Train class represents Set of stations.
+ * Stations are Strings.
+ *
  * @author Johannes Coppeneur
  */
 public class Train {
 
+    /**
+     * Set of stations which are on the train route.
+     */
     private Set<String> stations;
 
-    private String name;
-    // TODO GEREON HELP PLS
-//    private Set<Station> stations;
+    // TODO Erweiterbarkeit ist besser gegeben wenn Station eine Klasse wird
+    // TODO HashFunktion überschreiben damit compare klappt
+    // TODO Liste von Map von String zu Station
 
-    public Train(TreeSet<String> stations) {
-        this.stations = stations;
+    /**
+     * Constructor.
+     *
+     * @param stations Set of Station of the train route
+     */
+    public Train(Set<String> stations) {
+        this.stations = new HashSet<>(stations);
     }
 
-    public Train(Set<String> stations, String name) {
-        this.stations = stations.stream().map(String::new).collect(Collectors.toSet());
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
+    /**
+     * Return the Set of stations of the train route.
+     *
+     * @return stations
+     */
     public Set<String> getStations() {
-        return stations;
+        return this.stations;
     }
 
-    public void setStations(HashSet<String> stations) {
+    // TODO setStations einbinden?
+    public void setStations(Set<String> stations) {
         this.stations = stations;
     }
 
+    /**
+     * Removes the given station from the train route.
+     *
+     * @param stationToRemove String, name of the station to be removed
+     */
+    public void removeStation(String stationToRemove) {
+        this.stations.remove(stationToRemove);
+    }
+
+    /**
+     * @return Returns a string representation of the train route.
+     */
     @Override
     public String toString() {
         return "Train{" + "\nStations=" + stations + "\n}";
     }
-
-//    public boolean contains(Set<Station> subset) {
-//        return subset.stream().allMatch(station -> this.stations.contains(station.getName()));
-//    }
-
-//    public boolean contains(Set<Station> stationsToCompare) {
-//
-//        stationsToCompare.t
-//
-//    }
 }

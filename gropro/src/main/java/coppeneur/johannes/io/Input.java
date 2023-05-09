@@ -1,17 +1,22 @@
 package coppeneur.johannes.io;
 
-import coppeneur.johannes.data.Station;
 import coppeneur.johannes.data.Train;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
- * Interface for an input strategy.
+ * Interface for the input of a Rail Network
  *
  * @author Johannes Coppeneur
  */
 public interface Input {
 
+  /**
+   * Returns a List of Trains which is located in the specified file.
+   *
+   * @return List of Trains
+   * @throws IOException Throws an exception if the file cannot be found or opened
+   */
   List<Train> readInput() throws IOException;
 }
