@@ -1,5 +1,8 @@
 package coppeneur.johannes.algorithm;
 
+import coppeneur.johannes.algorithm.reduction.ReductionStrategy;
+import coppeneur.johannes.algorithm.reduction.StationReductionStrategy;
+import coppeneur.johannes.algorithm.reduction.TrainReductionStrategy;
 import coppeneur.johannes.data.RailroadNetwork;
 import coppeneur.johannes.data.Station;
 import coppeneur.johannes.data.Train;
@@ -12,6 +15,12 @@ import java.util.Optional;
 
 public class ServiceStationFinder {
 
+  private final List<ReductionStrategy> reducers = new ArrayList<>();
+
+  public ServiceStationFinder(){
+    setDefaultReducers();
+
+}
   /**
    * Method to get the Minimum service-stations of a railroad network with a greedy approach
    *
@@ -22,7 +31,7 @@ public class ServiceStationFinder {
 
     List<Station> serviceStations = new ArrayList<>();
 
-    List<Train> trains = railroadNetwork.getTrains();
+    List<Train> trains = reduce(railroadNetwork.getTrains());
 
     while (!trains.isEmpty()) {
 
@@ -48,5 +57,27 @@ public class ServiceStationFinder {
     }
 
     return serviceStations;
+  }
+
+  private List<Train> reduce(List<Train> trains) {
+    int i = 2;
+    List<Train> reducedTrains = new ArrayList<>();
+    for (ReductionStrategy reduction : this.reducers) {
+      //                System.out.println("\n");
+      System.out.println("Reduktion " + i);
+
+      //                System.out.println(trains.size());
+      reducedTrains = reduction.reduce(trains);
+      //                System.out.println(trains.size());
+      System.out.println(trains);
+      System.out.println("\n");
+      i++;
+    }
+    return reducedTrains;
+  }
+
+  private void setDefaultReducers() {
+    this.reducers.add(new StationReductionStrategy());
+    this.reducers.add(new TrainReductionStrategy());
   }
 }

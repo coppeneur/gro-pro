@@ -15,33 +15,9 @@ import java.util.List;
 public class RailroadNetwork {
 
   private List<Train> trains;
-  private final List<ReductionStrategy> reducers = new ArrayList<>();
 
   public RailroadNetwork(List<Train> trains) {
-    setDefaultReducers();
-    this.trains = reduce(trains);
-  }
-
-  private List<Train> reduce(List<Train> trains) {
-    int i = 2;
-    List<Train> reducedTrains = new ArrayList<>();
-    for (ReductionStrategy reduction : this.reducers) {
-      //                System.out.println("\n");
-      System.out.println("Reduktion " + i);
-
-      //                System.out.println(trains.size());
-      reducedTrains = reduction.reduce(trains);
-      //                System.out.println(trains.size());
-      System.out.println(trains);
-      System.out.println("\n");
-      i++;
-    }
-    return reducedTrains;
-  }
-
-  private void setDefaultReducers() {
-    this.reducers.add(new StationReductionStrategy());
-    this.reducers.add(new TrainReductionStrategy());
+    this.trains = trains;
   }
 
   public List<Train> getTrains() {
