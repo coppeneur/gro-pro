@@ -57,8 +57,7 @@ public class StationReductionStrategy implements ReductionStrategy {
                     toRemove.add(station);
                 }
             }
-
-            trainsOfStation.clear();
+//            trainsOfStation.clear();
         }
         toRemove.forEach(allUniqueStations::remove);
 
