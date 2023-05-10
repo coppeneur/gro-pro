@@ -1,6 +1,9 @@
 package coppeneur.johannes.io;
 
 
+import coppeneur.johannes.data.RailroadNetwork;
+import coppeneur.johannes.data.Station;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -48,14 +51,14 @@ public class WriteFile implements Output {
     }
 
     /**
-     * // TODO railNetwork übergeben SERVICEPOINTS ?
+     *
      * Writes all service-points to an output file
      *
-     * @param strings List of String, which contain the name of the service-points
+     * @param serviceStations List of Station, which contain the name of the service-points
      */
     @Override
-    public void writeFile(List<String> strings) {
-        String output = getOutputString(strings);
+    public void writeFile(List <Station> serviceStations) {
+        String output = getOutputString(serviceStations);
 //    String filename = "out{0}.txt";
         try {
             this.file.getParentFile().mkdirs();
@@ -68,10 +71,11 @@ public class WriteFile implements Output {
         }
     }
 
-    private String getOutputString(List<String> trains) {
+    private String getOutputString(List<Station> serviceStations) {
         StringBuilder outputString = new StringBuilder(FILE_TEMPLATE);
-        for (String train : trains) {
-            outputString.append(train).append(";");
+    outputString.append("Anzahl an Servicestationen: ").append(serviceStations.size()).append("\n");
+        for (Station station : serviceStations) {
+            outputString.append(station.getName().toString()).append(";");
         }
         outputString.deleteCharAt(outputString.length() - 1);
         System.out.println(outputString);

@@ -1,101 +1,73 @@
 package coppeneur.johannes;
 
-import coppeneur.johannes.data.Train;
+import coppeneur.johannes.algorithm.ServiceStationFinder;
+import coppeneur.johannes.data.RailroadNetwork;
 import coppeneur.johannes.io.Input;
 import coppeneur.johannes.io.Output;
 import coppeneur.johannes.io.ReadFile;
 import coppeneur.johannes.io.WriteFile;
-import coppeneur.johannes.util.ReductionStrategy;
-import coppeneur.johannes.util.Solver;
-import coppeneur.johannes.util.StationReductionStrategy;
-import coppeneur.johannes.util.TrainReductionStrategy;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Main Class where all the magic happens.
- */
+/** Main Class where all the magic happens. */
 public class Main {
-    private static final String OUTPUT_FILE_PATH_DEFAULT = "output/output.txt";
+  private static final String OUTPUT_FILE_PATH_DEFAULT = "output/output.txt";
 
-    private static String OUTPUT_FILE_PATH;
-    private static String INPUT_FILE_PATH;
+  private static String OUTPUT_FILE_PATH;
+  private static String INPUT_FILE_PATH;
 
-    private static void handleArgs(String[] args) {
+  private static void handleArgs(String[] args) {
 
-        // number handeling
+    // number handeling
 
-//            int firstArg;
-//            if (args.length > 0) {
-//              try {
-//                firstArg = Integer.parseInt(args[0]);
-//              } catch (NumberFormatException e) {
-//                System.err.println("Argument" + args[0] + " must be an integer.");
-//                System.exit(1);
-//              }
-//            }
+    //            int firstArg;
+    //            if (args.length > 0) {
+    //              try {
+    //                firstArg = Integer.parseInt(args[0]);
+    //              } catch (NumberFormatException e) {
+    //                System.err.println("Argument" + args[0] + " must be an integer.");
+    //                System.exit(1);
+    //              }
+    //            }
 
-        // input output file
-        if (args.length == 0) {
-            throw new RuntimeException("No input file declared.");
+    // input output file
+    if (args.length == 0) {
+      throw new RuntimeException("No input file declared.");
 
-        } else if (args.length == 1) {
-            System.out.println("1 input params");
-            // input file
-            // output file default
-            INPUT_FILE_PATH = args[0];
+    } else if (args.length == 1) {
+      System.out.println("1 input params");
+      // input file
+      // output file default
+      INPUT_FILE_PATH = args[0];
 
-            OUTPUT_FILE_PATH = "output/" + args[0] + ".out";
+      OUTPUT_FILE_PATH = "output/" + args[0] + ".out";
 
-        } else if (args.length == 2) {
-            System.out.println("2 input params");
-            INPUT_FILE_PATH = args[0];
-            OUTPUT_FILE_PATH = args[1];
-        }
+    } else if (args.length == 2) {
+      System.out.println("2 input params");
+      INPUT_FILE_PATH = args[0];
+      OUTPUT_FILE_PATH = args[1];
     }
+  }
 
-    /**
-     * Main function to start the programm
-     *
-     * @param args [0] input File name [1] output file name. default: TODO
-     */
-    public static void main(String[] args) {
-        try {
-            String [] test = new String[]{"src/main/resources/Beispiel2.txt"};
+  /**
+   * Main function to start the programm
+   *
+   * @param args [0] input File name [1] output file name. default: TODO
+   */
+  public static void main(String[] args) {
+    try {
+      //            String [] test = new
+      // String[]{"src/main/resources/ErrorCases/B723StreckenBiszu39HaltepunkteRandom.txt"};
+      String[] test = new String[] {"src/main/resources/ErrorCases/Fehlerfall.txt"};
+      handleArgs(test);
 
-            handleArgs(test);
+      Input readFile = new ReadFile(INPUT_FILE_PATH);
+      RailroadNetwork railroadNetwork = readFile.readInput();
+      System.out.println(railroadNetwork);
+      ServiceStationFinder serviceStationFinder = new ServiceStationFinder();
+      Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
+      writeFile.writeFile(serviceStationFinder.getMinServiceStation(railroadNetwork));
 
-            Input readFile = new ReadFile(INPUT_FILE_PATH);
-            List<Train> trains = readFile.readInput();
-            System.out.println(trains);
-            List<ReductionStrategy> reductionStrategies = new ArrayList<>();
-            reductionStrategies.add(new StationReductionStrategy());
-            reductionStrategies.add(new TrainReductionStrategy());
-            System.out.println("START ");
-            System.out.println(trains);
-
-//            int i = 2;
-            for (ReductionStrategy reduction : reductionStrategies) {
-//                System.out.println("\n");
-//                System.out.println("Reduktion " + i);
-
-                trains = reduction.reduce(trains);
-//                System.out.println(trains);
-//                System.out.println("\n");
-//                i++;
-            }
-
-
-            Solver solver = new Solver();
-//            System.out.println(trains);
-//            System.out.println("\n");
-
-            Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
-            writeFile.writeFile(solver.getMinServiceStation(trains));
-
-        } catch (Exception e) {
-            System.out.println("\n" + e);
-        }
+    } catch (Exception e) {
+      System.out.println("\n" + e);
     }
+  }
 }

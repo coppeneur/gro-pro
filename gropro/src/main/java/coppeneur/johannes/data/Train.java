@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * The Train class represents Set of stations.
- * Stations are Strings.
+ * Stations.
  *
  * @author Johannes Coppeneur
  */
@@ -14,7 +14,7 @@ public class Train {
     /**
      * Set of stations which are on the train route.
      */
-    private Set<String> stations;
+    private Set<Station> stations;
 
     // TODO Erweiterbarkeit ist besser gegeben wenn Station eine Klasse wird
     // TODO HashFunktion überschreiben damit compare klappt
@@ -25,7 +25,7 @@ public class Train {
      *
      * @param stations Set of Station of the train route
      */
-    public Train(Set<String> stations) {
+    public Train(Set<Station> stations) {
         this.stations = new HashSet<>(stations);
     }
 
@@ -34,12 +34,12 @@ public class Train {
      *
      * @return stations
      */
-    public Set<String> getStations() {
+    public Set<Station> getStations() {
         return this.stations;
     }
 
     // TODO setStations einbinden?
-    public void setStations(Set<String> stations) {
+    public void setStations(Set<Station> stations) {
         this.stations = stations;
     }
 
@@ -48,7 +48,7 @@ public class Train {
      *
      * @param stationToRemove String, name of the station to be removed
      */
-    public void removeStation(String stationToRemove) {
+    public void removeStation(Station stationToRemove) {
         this.stations.remove(stationToRemove);
     }
 

@@ -1,6 +1,8 @@
-package coppeneur.johannes.util;
+package coppeneur.johannes.algorithm.reduction;
 
+import coppeneur.johannes.data.Station;
 import coppeneur.johannes.data.Train;
+import coppeneur.johannes.util.Util;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,18 +18,18 @@ public class StationReductionStrategy implements ReductionStrategy {
     public List<Train> reduce(List<Train> trains) {
 
         // alle stationen
-        List<String> allStations = trains.stream()
+        List<Station> allStations = trains.stream()
                 .flatMap(train -> train.getStations().stream())
                 .toList();
 
-        List<String> toRemove = new ArrayList<>();
+        List<Station> toRemove = new ArrayList<>();
 
         // unique stationen
-        Set<String> allUniqueStations = trains.stream()
+        Set<Station> allUniqueStations = trains.stream()
                 .flatMap(train -> train.getStations().stream())
                 .collect(Collectors.toSet());
 
-        for (String station : allUniqueStations) {
+        for (Station station : allUniqueStations) {
 
             // Liste aller Trains von einer Station
             List<Train> trainsOfStation = new ArrayList<>();
@@ -38,11 +40,11 @@ public class StationReductionStrategy implements ReductionStrategy {
             }
 
             // alle stationen der Zuege der stationen
-            List<String> allStationsOfListOfTrains = trainsOfStation.stream()
+            List<Station> allStationsOfListOfTrains = trainsOfStation.stream()
                     .flatMap(train -> train.getStations().stream())
                     .toList();
 
-            Map<String, Integer> stationOccurences = Util.countFrequencies(allStationsOfListOfTrains);
+            Map<Station, Integer> stationOccurences = Util.countFrequencies(allStationsOfListOfTrains);
 
 // RICHTIG ???
 //            System.out.println(station);
@@ -63,7 +65,7 @@ public class StationReductionStrategy implements ReductionStrategy {
             // ABER NICHT WENN ES DIE GLEICHE STATION IST
             // ES MUSS DIE STATION GELOESCHT WERDEN DA DIE ANDEREN AUCH HAEUFIGER DRAN KOMMEN KOENNTEN
 
-            for (Map.Entry<String, Integer> entry : stationOccurences.entrySet()) {
+            for (Map.Entry<Station, Integer> entry : stationOccurences.entrySet()) {
                 if (entry.getKey().equals(station)) {
                     continue;
                 }
@@ -81,9 +83,9 @@ public class StationReductionStrategy implements ReductionStrategy {
 
         for (Train train : trains) {
 
-            Set<String> filteredStation = new HashSet<>();
+            Set<Station> filteredStation = new HashSet<>();
 
-            for (String station : train.getStations()) {
+            for (Station station : train.getStations()) {
                 if (allUniqueStations.contains(station)) {
                     filteredStation.add(station);
                 }

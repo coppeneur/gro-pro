@@ -1,39 +1,37 @@
 package coppeneur.johannes.util;
 
+import coppeneur.johannes.data.Station;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author Johannes Coppeneur
- * <p>
- * Utility Class
+ *     <p>Utility Class
  */
 public class Util {
 
-    /**
-     * Method to count the frequencies of all Strings in a List.
-     *
-     * @param list of Strings to be counted
-     * @return returns HashMap of Strings and their frequencies
-     */
-    public static Map<String, Integer> countFrequencies(List<String> list) {
-        // hashmap to store the frequency of element
-        Map<String, Integer> hm = new HashMap<String, Integer>();
+  // private constructor to hide the real
+  private Util(){
 
-        for (String i : list) {
-            Integer j = hm.get(i);
-            hm.put(i, (j == null) ? 1 : j + 1);
-        }
+}
 
-        // displaying the occurrence of elements in the arraylist
-//        for (Map.Entry<String, Integer> val : hm.entrySet()) {
-//            System.out.println("Element " + val.getKey() + " "
-//                    + "occurs"
-//                    + ": " + val.getValue() + " times");
-//        }
+  /**
+   * Method to count the frequencies of all Strings in a List.
+   *
+   * @param list of Strings to be counted
+   * @return returns HashMap of Strings and their frequencies
+   */
+  public static Map<Station, Integer> countFrequencies(List<Station> list) {
+    // hashmap to store the frequency of element
+    Map<Station, Integer> hm = new HashMap<>();
 
-        return hm;
+    for (Station i : list) {
+      Integer j = hm.get(i);
+      hm.put(i, (j == null) ? 1 : j + 1);
     }
 
+    return hm;
+  }
 }

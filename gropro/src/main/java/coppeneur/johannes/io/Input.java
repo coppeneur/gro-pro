@@ -1,9 +1,8 @@
 package coppeneur.johannes.io;
 
-import coppeneur.johannes.data.Train;
+import coppeneur.johannes.data.RailroadNetwork;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Interface for the input of a Rail Network
@@ -18,5 +17,5 @@ public interface Input {
    * @return List of Trains
    * @throws IOException Throws an exception if the file cannot be found or opened
    */
-  List<Train> readInput() throws IOException;
+  RailroadNetwork readInput() throws IOException;
 }

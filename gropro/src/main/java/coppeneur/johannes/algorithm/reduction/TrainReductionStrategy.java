@@ -1,4 +1,4 @@
-package coppeneur.johannes.util;
+package coppeneur.johannes.algorithm.reduction;
 
 import coppeneur.johannes.data.Train;
 
