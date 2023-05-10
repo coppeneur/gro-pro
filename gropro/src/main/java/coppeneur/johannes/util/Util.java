@@ -12,16 +12,16 @@ import java.util.Map;
  */
 public class Util {
 
-  // private constructor to hide the real
+  // private constructor to hide the real one
   private Util(){
 
 }
 
   /**
-   * Method to count the frequencies of all Strings in a List.
+   * Method to count the frequencies in a List of Stations.
    *
-   * @param list of Strings to be counted
-   * @return returns HashMap of Strings and their frequencies
+   * @param list of Stations to be counted
+   * @return returns HashMap of Station and their frequencies
    */
   public static Map<Station, Integer> countFrequencies(List<Station> list) {
     // hashmap to store the frequency of element

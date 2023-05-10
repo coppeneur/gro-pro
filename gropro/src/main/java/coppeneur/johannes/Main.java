@@ -7,6 +7,8 @@ import coppeneur.johannes.io.Output;
 import coppeneur.johannes.io.ReadFile;
 import coppeneur.johannes.io.WriteFile;
 
+import java.io.File;
+
 /** Main Class where all the magic happens. */
 public class Main {
   private static final String OUTPUT_FILE_PATH_DEFAULT = "output/output.txt";
@@ -37,8 +39,8 @@ public class Main {
       // input file
       // output file default
       INPUT_FILE_PATH = args[0];
-
-      OUTPUT_FILE_PATH = "output/" + args[0] + ".out";
+      File inputFile = new File(args[0]);
+      OUTPUT_FILE_PATH = "output/" + inputFile.getName() + ".out";
 
     } else if (args.length == 2) {
       System.out.println("2 input params");
@@ -56,7 +58,7 @@ public class Main {
     try {
       //            String [] test = new
       // String[]{"src/main/resources/ErrorCases/B723StreckenBiszu39HaltepunkteRandom.txt"};
-      String[] test = new String[] {"src/main/resources/ErrorCases/GreedyTest.txt"};
+      String[] test = new String[] {"src/main/resources/IHK-Beispiele/Beispiel1.txt"};
       handleArgs(test);
 
       Input readFile = new ReadFile(INPUT_FILE_PATH);
@@ -64,7 +66,7 @@ public class Main {
       System.out.println(railroadNetwork);
       ServiceStationFinder serviceStationFinder = new ServiceStationFinder();
       Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
-      writeFile.writeFile(serviceStationFinder.getMinServiceStation(railroadNetwork));
+      writeFile.writeFile(serviceStationFinder.findMinServiceStations(railroadNetwork));
 
     } catch (Exception e) {
       System.out.println("\n" + e);

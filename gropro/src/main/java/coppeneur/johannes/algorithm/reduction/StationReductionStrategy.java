@@ -17,11 +17,6 @@ public class StationReductionStrategy implements ReductionStrategy {
     @Override
     public List<Train> reduce(List<Train> trains) {
 
-        // alle stationen
-        List<Station> allStations = trains.stream()
-                .flatMap(train -> train.getStations().stream())
-                .toList();
-
         List<Station> toRemove = new ArrayList<>();
 
         // unique stationen
@@ -45,18 +40,6 @@ public class StationReductionStrategy implements ReductionStrategy {
                     .toList();
 
             Map<Station, Integer> stationOccurences = Util.countFrequencies(allStationsOfListOfTrains);
-
-// RICHTIG ???
-//            System.out.println(station);
-//            System.out.println(trainsOfStation);
-//            System.out.println(stationOccurences.entrySet().stream().filter(e -> e.getValue() >= trainsOfStation.size()).toList());
-//            long count = stationOccurences.entrySet().stream().filter(e -> e.getValue() >= trainsOfStation.size()).count();
-//            System.out.println("Count: " + count + " bool " + String.valueOf(count != 1));
-//            boolean remove =  count != 1;
-//            if (remove) {
-//                trainsOfStation.forEach(train -> train.removeStation(station));
-//                toRemove.add(station);
-//            }
 
 //            // TODO
 

@@ -27,7 +27,7 @@ public class ServiceStationFinder {
    * @param railroadNetwork network of which the minimum servicestation should be determined
    * @return List of Strings, with the names of the Service-points
    */
-  public List<Station> getMinServiceStation(RailroadNetwork railroadNetwork) {
+  public List<Station> findMinServiceStations(RailroadNetwork railroadNetwork) {
 
     List<Station> serviceStations = new ArrayList<>();
 

@@ -1,5 +1,5 @@
 # Beipsiel 1
-HH;H;B;L
+HH ;H;B; L
 K;FFM;S
 HH;H;FFM;N;M
 H;FFM;N

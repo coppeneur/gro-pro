@@ -71,7 +71,7 @@ public class ReadFile implements Input {
       if (line.matches(LINE_REGEX)) {
         String[] stationsArray = line.split(";");
 
-        trains.add(new Train(Arrays.stream(stationsArray).map(Station::new).collect(Collectors.toCollection(HashSet::new))));
+        trains.add(new Train(Arrays.stream(stationsArray).map(String::strip).map(Station::new).collect(Collectors.toCollection(HashSet::new))));
       } else {
         throw new IOException(
             String.format("Wrong format in line: %s and file %s", line, file.getName()));

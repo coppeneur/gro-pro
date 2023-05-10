@@ -27,4 +27,11 @@ public class RailroadNetwork {
   public void setTrains(List<Train> trains) {
     this.trains = trains;
   }
+
+  @Override
+  public String toString() {
+    return "RailroadNetwork{" +
+            "trains=" + trains +
+            '}';
+  }
 }
