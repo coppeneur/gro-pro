@@ -60,4 +60,12 @@ public class Train {
     public String toString() {
         return "Train{" + "\nStations=" + stations + "\n}";
     }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Train train = (Train) o;
+        return stations.equals(train.stations);
+    }
 }

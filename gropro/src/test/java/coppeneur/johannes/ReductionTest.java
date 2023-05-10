@@ -1,113 +1,80 @@
 package coppeneur.johannes;
 
+import coppeneur.johannes.algorithm.ServiceStationFinder;
 import coppeneur.johannes.algorithm.reduction.ReductionStrategy;
+import coppeneur.johannes.algorithm.reduction.StationReductionStrategy;
 import coppeneur.johannes.algorithm.reduction.TrainReductionStrategy;
+import coppeneur.johannes.data.RailroadNetwork;
+import coppeneur.johannes.data.Station;
 import coppeneur.johannes.data.Train;
 import coppeneur.johannes.io.ReadFile;
+import junit.framework.Assert;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
  * @author Johannes Coppeneur
  */
 public class ReductionTest {
-//
-//
-//    @Test
-//    void testTrainReductionStrategy() {
-//        try {
-//            ReadFile readFile = new ReadFile("src/main/resources/Reduction3.txt");
-//            List<Train> trains = new ArrayList<>();
-//            trains = readFile.readInput();
-//            ReductionStrategy strategy3 = new TrainReductionStrategy();
-//
-//            System.out.println(strategy3.reduce(trains));
-//        } catch (IOException e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
-//
-//    @Test
-//    void testStationReductionStrategy() {
-//        try {
-//
-//            //TODO
-//            // OBJ PARSEN
-//            // schöner PRINTER für Train Liste?
-//            ReadFile readFile = new ReadFile("src/main/resources/Reduction2.txt");
-//            List<Train> trains = new ArrayList<>();
-//            trains = readFile.readInput();
-//            ReductionStrategy strategy2 = new StationReductionStrategy();
-//
-//            System.out.println(strategy2.reduce(trains));
-//
-//        } catch (IOException e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
-//    @Test
-//    void testBastiStationReductionStrategy() {
-//        try {
-//
-//            //TODO
-//            // OBJ PARSEN
-//            // schöner PRINTER für Train Liste?
-//            ReadFile readFile = new ReadFile("src/main/resources/Reduktion2Basti.txt");
-//            List<Train> trains = new ArrayList<>();
-//            trains = readFile.readInput();
-//            ReductionStrategy strategy2 = new StationReductionStrategy();
-//
-//            System.out.println(strategy2.reduce(trains));
-//
-//        } catch (IOException e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
-//
-//    @Test
-//    void testAlgoBspStationReductionStrategy() {
-//        try {
-//
-//            //TODO
-//            // OBJ PARSEN
-//            // schöner PRINTER für Train Liste?
-//            ReadFile readFile = new ReadFile("src/main/resources/test.in");
-//            List<Train> trains = new ArrayList<>();
-//            trains = readFile.readInput();
-//            ReductionStrategy strategy2 = new StationReductionStrategy();
-//
-//            System.out.println(strategy2.reduce(trains));
-//
-//        } catch (IOException e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
-//
-//
-//    @Test
-//    void testRANDOMStationReductionStrategy() {
-//        try {
-//
-//            //TODO
-//            // OBJ PARSEN
-//            // schöner PRINTER für Train Liste?
-//            ReadFile readFile = new ReadFile("src/main/resources/random.txt");
-//            List<Train> trains = new ArrayList<>();
-//            trains = readFile.readInput();
-//            ReductionStrategy strategy2 = new StationReductionStrategy();
-//
-//            System.out.println(strategy2.reduce(trains));
-//
-//        } catch (IOException e) {
-//            System.out.println(e.toString());
-//        }
-//
-//    }
+
+
+    @Nested
+    @DisplayName("Reduction Strategy")
+    class ReductionStrategyTest{
+
+      @Test
+      @DisplayName("Remove Duplicate Stations")
+      void testRemoveDuplicateStation(){
+        try {
+          ReadFile readFile = new ReadFile("src/main/resources/IHK-Beispiele/Reduktion1.txt");
+          RailroadNetwork railroadNetwork = readFile.readInput();
+          ReadFile solutionFile = new ReadFile("src/main/resources/IHK-Beispiele/Reduktion1Solution.txt");
+          RailroadNetwork solutionNetwork = solutionFile.readInput();
+          Assert.assertEquals(railroadNetwork.getTrains(), solutionNetwork.getTrains());
+        } catch (IOException e) {
+          System.out.println(e.toString());
+        }
+      }
+
+      @Test
+      @DisplayName("Station Reduction")
+      void testStationReductionStrategy() {
+        try {
+          ReadFile readFile = new ReadFile("src/main/resources/IHK-Beispiele/Reduktion2.txt");
+          RailroadNetwork railroadNetwork = readFile.readInput();
+          ReductionStrategy stationReducer = new StationReductionStrategy();
+          List<Train> reduced = stationReducer.reduce(railroadNetwork.getTrains());
+
+          // solution can't be read because it's train whith single stations
+          Train train = new Train(new HashSet<>(Arrays.asList(new Station("H"))));
+          List<Train> list = Arrays.asList(train,train,train,train);
+          Assert.assertEquals(reduced, list);
+        } catch (IOException e) {
+          System.out.println(e.toString());
+        }
+      }
+
+        @Test
+        @DisplayName("Train Reduction")
+        void testTrainReductionStrategy() {
+            try {
+                ReadFile readFile = new ReadFile("src/main/resources/IHK-Beispiele/Reduktion3.txt");
+                RailroadNetwork railroadNetwork = readFile.readInput();
+                ReductionStrategy trainReducer = new TrainReductionStrategy();
+                List<Train> reduced = trainReducer.reduce(railroadNetwork.getTrains());
+
+                ReadFile solutionFile = new ReadFile("src/main/resources/IHK-Beispiele/Reduktion3Solution.txt");
+                RailroadNetwork solutionNetwork = solutionFile.readInput();
+                Assert.assertEquals(reduced, solutionNetwork.getTrains());
+            } catch (IOException e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
 }
