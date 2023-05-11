@@ -62,7 +62,7 @@ public class ServiceStationFinder {
    * @param listoftrains list of Train of which the greedy upper limit should be determined
    * @return List of Strings, with the names of the Service-points
    */
-  public List<Station> findMinServiceStationsGreedy(List<Train> listoftrains) {
+  private List<Station> findMinServiceStationsGreedy(List<Train> listoftrains) {
 
     List<Station> serviceStations = new ArrayList<>();
 

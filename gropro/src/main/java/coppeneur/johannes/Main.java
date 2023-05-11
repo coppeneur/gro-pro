@@ -23,17 +23,14 @@ public class Main {
       throw new RuntimeException("No input file declared.");
 
     } else if (args.length == 1) {
-      System.out.println("1 input params");
       // input file
       // output file default
       INPUT_FILE_PATH = args[0];
       File inputFile = new File(args[0]);
       OUTPUT_FILE_PATH = "output/" + inputFile.getName() + ".out";
 
-    } else if (args.length == 2) {
-      System.out.println("2 input params");
-      INPUT_FILE_PATH = args[0];
-      OUTPUT_FILE_PATH = args[1];
+    } else {
+      throw new RuntimeException("Only one arguement is allowed. The path of the input file.");
     }
   }
 
@@ -67,7 +64,7 @@ public class Main {
     } catch (Exception e) {
       try {
         System.out.println("\n An Error appeared: " + e);
-        Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
+        Output writeFile = new WriteFile("output/" + OUTPUT_FILE_PATH);
         writeFile.writeFile(e.toString());
       } catch (Exception exception) {
         System.out.println();
