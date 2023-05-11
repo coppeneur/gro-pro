@@ -7,15 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Utility Class
+ *
  * @author Johannes Coppeneur
- *     <p>Utility Class
  */
 public class Util {
 
   // private constructor to hide the real one
-  private Util(){
-
-}
+  private Util() {}
 
   /**
    * Method to count the frequencies in a List of Stations.

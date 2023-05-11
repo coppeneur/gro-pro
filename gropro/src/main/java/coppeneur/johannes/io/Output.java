@@ -1,13 +1,12 @@
 package coppeneur.johannes.io;
 
-
 import coppeneur.johannes.data.Station;
 
-import java.util.List;
+import java.util.Set;
 
-/**
- * Interface for an output strategie
- */
+/** Interface for an output strategie */
 public interface Output {
-  void writeFile(List<Station> serviceStations);
+  void writeFile(Set<Station> serviceStations);
+
+  void writeFile(String error);
 }

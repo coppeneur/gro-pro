@@ -9,21 +9,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Reads text files and passes the List of Trains.
+ * Reads text files and passes the RailroadNetwork.
  *
  * @author Johannes Coppeneur
  */
 public class ReadFile implements Input {
 
-  /** //TODO DEFAULT? FILE NAME Object of File to be read. */
-
-  /**
-   * Regex der Zeilen mit gewollten Pattern erkennt
-   */
+  /** Regex der Zeilen mit gewollten Pattern erkennt */
   private static final String LINE_REGEX = "^[a-zA-ZÄÖÜäöüß]+(\\s*;\\s*[a-zA-ZÄÖÜäöüß]+)+\\s*;?$";
 
+  /** pattern of a comment */
   private static final String COMMENT_PATTERN = "#";
-  private File file;
+  /** file to be read */
+  private final File file;
 
   /**
    * Constructor.
@@ -33,7 +31,6 @@ public class ReadFile implements Input {
    */
   public ReadFile(String filename) throws IOException {
     this.file = new File(filename);
-    System.out.println(file.getPath());
     if (!this.file.isFile()) {
       throw new FileNotFoundException(String.format("file: %s not found", filename));
     }
@@ -43,10 +40,10 @@ public class ReadFile implements Input {
   }
 
   /**
-   * Returns a List of Trains which is located in the specified file. Duplicate Stations of a train
-   * route will be removed.
+   * Returns a RailroadNetwork which is located in the specified file. Duplicate Stations of a train
+   * route will be removed. A route has to contain of more than one station.
    *
-   * @return List of Trains
+   * @return RailroadNetwork
    * @throws IOException Throws an exception if the file cannot be found or opened
    */
   @Override
@@ -60,19 +57,20 @@ public class ReadFile implements Input {
     while ((line = reader.readLine()) != null) {
       line = line.strip();
       if (line.isBlank()) {
-        //                    System.out.println("Empty line: " + line);
         continue;
       }
-      // remove comment
       if (line.startsWith(COMMENT_PATTERN)) {
-        //                    System.out.println("Kommentar: " + line);
         continue;
       }
       if (line.matches(LINE_REGEX)) {
-      //TODO
         String[] stationsArray = line.split(";");
 
-        trains.add(new Train(Arrays.stream(stationsArray).map(String::strip).map(Station::new).collect(Collectors.toCollection(HashSet::new))));
+        trains.add(
+            new Train(
+                Arrays.stream(stationsArray)
+                    .map(String::strip)
+                    .map(Station::new)
+                    .collect(Collectors.toCollection(HashSet::new))));
       } else {
         throw new IOException(
             String.format("Wrong format in line: %s and file %s", line, file.getName()));

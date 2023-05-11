@@ -10,44 +10,51 @@ import coppeneur.johannes.util.Util;
 
 import java.util.*;
 
+/**
+ * Class which contains algorithms and helper function to determine the minimum numbers of
+ * servicestation in a RailRoadNetwork
+ */
 public class ServiceStationFinder {
 
+  /** List of reducers */
   private final List<ReductionStrategy> reducers = new ArrayList<>();
 
   private List<Train> trains;
-  private Set<Station> stations;
+  /** Set of Servicestations */
+  private Set<Station> serviceStationSet;
 
+  /** Upper bound, amount of stations in the best known solution */
   private int upperBound;
 
+  /** Constructor */
   public ServiceStationFinder() {
     setDefaultReducers();
   }
 
-  private List<Station> currentServiceStation;
-
-
+  /** Defines StationReducerStrategy and TrainReducerStrategy as default reducer */
   private void setDefaultReducers() {
     this.reducers.add(new StationReductionStrategy());
     this.reducers.add(new TrainReductionStrategy());
   }
 
+  /**
+   * Helper function to reduce the number of trains and stations with the strategy's in the
+   * attribute reducers
+   *
+   * @param trains to be reduced
+   * @return List of reduced Trains
+   */
   private List<Train> reduce(List<Train> trains) {
     int i = 2;
     List<Train> reducedTrains = new ArrayList<>();
+    System.out.println("before reduction " + i + ": " + trains.size()+ " trains");
     for (ReductionStrategy reduction : this.reducers) {
-      //                System.out.println("\n");
-      //      System.out.println("Reduktion " + i);
-
-      //                System.out.println(trains.size());
       reducedTrains = reduction.reduce(trains);
-      //                System.out.println(trains.size());
-      //      System.out.println(trains);
-      //      System.out.println("\n");
+      System.out.println("after reduction " + i+ ": " + reducedTrains.size() + " trains");
       i++;
     }
     return reducedTrains;
   }
-
 
   /**
    * Method to get the Minimum service-stations of a railroad network with a greedy approach
@@ -80,79 +87,93 @@ public class ServiceStationFinder {
     return serviceStations;
   }
 
-
-
+  /**
+   * Finds the minimum servicestations to cover every station of the railroadnetwork uses greedy as
+   * an upperbound
+   *
+   * @param railroadNetwork of which the servicestations should be determined
+   * @return servicestations, set of station
+   */
   public Set<Station> findMinServiceStation(RailroadNetwork railroadNetwork) {
     List<Train> reducedTrains = reduce(railroadNetwork.getTrains());
     this.trains = reducedTrains;
-    this.stations = new HashSet<>(this.trains.stream().map(Train::getStations).flatMap(Collection::stream).toList());
+    this.serviceStationSet =
+        new HashSet<>(
+            this.trains.stream().map(Train::getStations).flatMap(Collection::stream).toList());
 
-    List<Station> greedyUpperLimit =findMinServiceStationsGreedy(reducedTrains);
-    upperBound = greedyUpperLimit.size();
+    List<Station> greedyUpperLimit = findMinServiceStationsGreedy(reducedTrains);
+    this.upperBound = greedyUpperLimit.size();
 
     System.out.println("Greedy upper limit: " + greedyUpperLimit.size() + "\n" + greedyUpperLimit);
 
-    backtrack(new HashSet<>(), upperBound);
+    findMinServiceStationRek(new HashSet<>(), upperBound);
 
-    System.out.println("Minimum Servicesations " + stations.size() + "\n" + stations);
+    System.out.println(
+        "Minimum Servicesations " + this.serviceStationSet.size() + "\n" + serviceStationSet);
 
-    return stations;
+    return this.serviceStationSet;
   }
 
   // Recursive method that backtracks to find the minimum hitting set
-  private void backtrack(Set<Station> selected, int upperBound) {
-    if (isCovered(selected)) {
-      stations = new HashSet<>(selected);
 
-      System.out.print("\\r"+ stations.size());
-      // only consider hitting sets better than the current solution and better than the solution
-      // from the greedy algo
-    } else if (selected.size() < upperBound && selected.size() < stations.size() - 1) {
-      // For each unselected element, add it to the selected set and backtrack
-      for (Station elem : getUnselectedElements(selected)) {
+  /**
+   * Backtrack to find the minimum amount of Servicestations so that atleast every train has one
+   * skip solutions greater than upperbound
+   *
+   * @param selected temp Servicestations
+   * @param upperBound Upper bound
+   */
+  private void findMinServiceStationRek(Set<Station> selected, int upperBound) {
+    if (everyTrainHasServicestation(selected)) {
+
+      this.serviceStationSet = new HashSet<>(selected);
+      this.upperBound = this.serviceStationSet.size();
+
+    } else if (selected.size() < upperBound
+        && selected.size() < this.serviceStationSet.size() - 1) {
+
+      for (Station elem : getStationsOfUnreachableTrains(selected)) {
         selected.add(elem);
-        List<Train> prev = this.trains;
-        this.trains = this.trains.stream().filter(train -> !train.getStations().contains(elem)).toList();
-        backtrack(selected, upperBound);
-        //        System.out.println(selected.size());
-        this.trains = prev;
+        List<Train> prevTrains = this.trains;
+        this.trains =
+            this.trains.stream().filter(train -> !train.getStations().contains(elem)).toList();
+        findMinServiceStationRek(selected, upperBound);
+        this.trains = prevTrains;
         selected.remove(elem);
       }
     }
   }
 
-  // Returns true if the selected set covers all sets
-  private boolean isCovered(Set<Station> selected) {
-    // For each set, if it does not intersect with the selected set, the selection does not cover
-    // all sets
+  /**
+   * Returns true if each train trains contains at least one of the selected stations, otherwise
+   * returns false
+   *
+   * @param stationSet, Set of Station
+   * @return bool
+   */
+  private boolean everyTrainHasServicestation(Set<Station> stationSet) {
     for (Train train : trains) {
-      if (Collections.disjoint(train.getStations(), selected)) {
+      if (Collections.disjoint(train.getStations(), stationSet)) {
         return false;
       }
     }
-    // If the selection covers all sets, return true
     return true;
   }
 
   // Returns the set of unselected elements
-  private Set<Station> getUnselectedElements(Set<Station> selected) {
-//        return sets.stream().filter(set -> Collections.disjoint(set, selected)).flatMap(Collection::stream).collect(Collectors.toSet());
-//
-//        Set<String> unselected = new HashSet<>();
-//        // For each set, if it doesn't intersect with the selected set, add its elements to the
-//        // unselected set
-//        for (Set<String> set : sets) {
-//            if (Collections.disjoint(set, selected)) {
-//                unselected.addAll(set);
-//            }
-//        }
-//        return unselected;
 
-    Set<Station> unselected = new HashSet<>();
-    // For each set, if it doesn't intersect with the selected set, add its elements to the
-    // unselected set
-    trains.stream().map(Train::getStations).filter(stationss -> Collections.disjoint(stationss, selected)).forEach(unselected::addAll);
-    return unselected;
+  /**
+   * Return all stations that do not occur in the trains from the stationSet stations
+   *
+   * @param stationSet, Set von Stationen
+   * @return stationsOfUnreachableTrains,
+   */
+  private Set<Station> getStationsOfUnreachableTrains(Set<Station> stationSet) {
+    Set<Station> stationsOfUnreachableTrains = new HashSet<>();
+    trains.stream()
+        .map(Train::getStations)
+        .filter(stationss -> Collections.disjoint(stationss, stationSet))
+        .forEach(stationsOfUnreachableTrains::addAll);
+    return stationsOfUnreachableTrains;
   }
-
 }
