@@ -55,7 +55,7 @@ public class ServiceStationFinder {
   /**
    * Method to get the Minimum service-stations of a railroad network with a greedy approach
    *
-   * @param railroadNetwork network of which the minimum servicestation should be determined
+   * @param listoftrains list of Train of which the greedy upper limit should be determined
    * @return List of Strings, with the names of the Service-points
    */
   public List<Station> findMinServiceStationsGreedy(List<Train> listoftrains) {
@@ -86,7 +86,6 @@ public class ServiceStationFinder {
               .filter(train -> !train.getStations().contains(currenServiceStation))
               .toList();
     }
-    System.out.println(serviceStations.size());
     return serviceStations;
   }
 
@@ -97,15 +96,18 @@ public class ServiceStationFinder {
 
     this.trains = reducedTrains;
     this.stations = new HashSet<>(this.trains.stream().map(Train::getStations).flatMap(Collection::stream).toList());
+    List<Station> greedyUpperLimit =findMinServiceStationsGreedy(reducedTrains);
+    System.out.println("Greedy upper limit: " + greedyUpperLimit.size() + "\n" + greedyUpperLimit);
 
-    backtrack(new HashSet<>(), findMinServiceStationsGreedy(reducedTrains).size());
+    backtrack(new HashSet<>(), greedyUpperLimit.size());
+    System.out.println("Minimum Servicesations " + stations.size() + "\n" + stations);
+
     return stations;
   }
 
   // Recursive method that backtracks to find the minimum hitting set
   private void backtrack(Set<Station> selected, int upperBound) {
     if (isCovered(selected)) {
-      System.out.println(selected);
       stations = new HashSet<>(selected);
       // only consider hitting sets better than the current solution and better than the solution
       // from the greedy algo

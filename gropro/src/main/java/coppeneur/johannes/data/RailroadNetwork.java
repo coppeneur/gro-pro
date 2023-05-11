@@ -5,6 +5,7 @@ import coppeneur.johannes.algorithm.reduction.StationReductionStrategy;
 import coppeneur.johannes.algorithm.reduction.TrainReductionStrategy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class which represents a railroad network contains a Method to find the minimum of services
@@ -31,7 +32,7 @@ public class RailroadNetwork {
   @Override
   public String toString() {
     return "RailroadNetwork{" +
-            "trains=" + trains +
-            '}';
+            "\n\t" + trains.stream().map(Train::toString).collect(Collectors.joining(",\n\t")) +
+            "\n}";
   }
 }

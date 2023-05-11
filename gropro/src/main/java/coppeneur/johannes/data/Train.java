@@ -58,7 +58,7 @@ public class Train {
      */
     @Override
     public String toString() {
-        return "Train{" + "\nStations=" + stations + "\n}";
+        return "Train{" + "Stations=" + stations + "}";
     }
 
     public boolean equals(Object o) {
