@@ -58,15 +58,21 @@ public class Main {
     try {
       //            String [] test = new
       // String[]{"src/main/resources/ErrorCases/B723StreckenBiszu39HaltepunkteRandom.txt"};
-      String[] test = new String[] {"src/main/resources/IHK-Beispiele/Beispiel1.txt"};
+      String[] test = new String[] {"src/main/resources/Felix/random_60_100.txt"};
       handleArgs(test);
 
       Input readFile = new ReadFile(INPUT_FILE_PATH);
       RailroadNetwork railroadNetwork = readFile.readInput();
       System.out.println(railroadNetwork);
-      ServiceStationFinder serviceStationFinder = new ServiceStationFinder();
+      ServiceStationFinder serviceStationFinderA = new ServiceStationFinder();
+      ServiceStationFinder serviceStationFinderB = new ServiceStationFinder();
       Output writeFile = new WriteFile(OUTPUT_FILE_PATH);
-      writeFile.writeFile(serviceStationFinder.findMinServiceStations(railroadNetwork));
+//      System.out.println("Optimal: " + serviceStationFinderA.findMinimumHittingSet(railroadNetwork));
+      long startTime = System.nanoTime();
+      System.out.println("MIN: " + serviceStationFinderB.findMinServiceStation(railroadNetwork));
+      long stopTime = System.nanoTime();
+      System.out.println(stopTime - startTime);
+//      writeFile.writeFile(serviceStationFinder.findMinServiceStationsGreedy(railroadNetwork));
 
     } catch (Exception e) {
       System.out.println("\n" + e);

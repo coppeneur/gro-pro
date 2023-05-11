@@ -21,7 +21,10 @@ public class TrainReductionStrategy implements ReductionStrategy {
         List<Train> toRemove = new ArrayList<>();
 
         for (int i = 0; i < trains.size(); i++) {
+      Train trainA = trains.get(i);
+
             for (int j = i + 1; j < trains.size(); j++) {
+        Train trainB = trains.get(j);
 
                 if (trains.get(i).getStations().size() > trains.get(j).getStations().size()) {
                     if (trains.get(i).getStations().containsAll(trains.get(j).getStations())) {
@@ -34,7 +37,9 @@ public class TrainReductionStrategy implements ReductionStrategy {
                 }
             }
         }
-        trains.removeAll(toRemove);
+        // only remove because otherwhise all duplicates would be deleted
+        // one needs to be kept
+        trains.remove(toRemove);
 
         return trains;
     }

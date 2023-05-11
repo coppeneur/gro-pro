@@ -68,14 +68,14 @@ public class ReadFile implements Input {
         //                    System.out.println("Kommentar: " + line);
         continue;
       }
-      if (line.matches(LINE_REGEX)) {
+//      if (line.matches(LINE_REGEX)) {
         String[] stationsArray = line.split(";");
 
         trains.add(new Train(Arrays.stream(stationsArray).map(String::strip).map(Station::new).collect(Collectors.toCollection(HashSet::new))));
-      } else {
-        throw new IOException(
-            String.format("Wrong format in line: %s and file %s", line, file.getName()));
-      }
+//      } else {
+//        throw new IOException(
+//            String.format("Wrong format in line: %s and file %s", line, file.getName()));
+//      }
     }
     if (trains.isEmpty()) {
       throw new IOException(String.format("No trains found in file: %s", file.getName()));

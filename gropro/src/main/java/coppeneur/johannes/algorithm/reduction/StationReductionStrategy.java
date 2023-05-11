@@ -18,12 +18,12 @@ public class StationReductionStrategy implements ReductionStrategy {
     public List<Train> reduce(List<Train> trains) {
 
 
+        List<Station> toRemove = new ArrayList<>();
         // unique stationen
         Set<Station> allUniqueStations = trains.stream()
                 .flatMap(train -> train.getStations().stream())
                 .collect(Collectors.toSet());
 
-        List<Station> toRemove = new ArrayList<>();
 
         for (Station station : allUniqueStations) {
 
@@ -58,7 +58,7 @@ public class StationReductionStrategy implements ReductionStrategy {
                     toRemove.add(station);
                 }
             }
-//            trainsOfStation.clear();
+            trainsOfStation.clear();
         }
         toRemove.forEach(allUniqueStations::remove);
 
