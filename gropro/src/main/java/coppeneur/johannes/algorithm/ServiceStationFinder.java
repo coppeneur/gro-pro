@@ -17,6 +17,8 @@ public class ServiceStationFinder {
   private List<Train> trains;
   private Set<Station> stations;
 
+  private int upperBound;
+
   public ServiceStationFinder() {
     setDefaultReducers();
   }
@@ -46,11 +48,6 @@ public class ServiceStationFinder {
     return reducedTrains;
   }
 
-  // int stepsTillSkip = shortest.size() - current.size();
-  // if (shortest.size() != 0 && remainingConnections.size() >= stepsTillSkip *
-  // station.getConnectionCount()) {
-  //  return;
-  // }
 
   /**
    * Method to get the Minimum service-stations of a railroad network with a greedy approach
@@ -62,21 +59,15 @@ public class ServiceStationFinder {
 
     List<Station> serviceStations = new ArrayList<>();
 
-    List<Train> trains = reduce(listoftrains);
+    List<Train> trains = listoftrains;
 
     while (!trains.isEmpty()) {
 
       List<Station> allStations =
           trains.stream().flatMap(train -> train.getStations().stream()).toList();
 
-      Map<Station, Integer> test = Util.countFrequencies(allStations);
-
       Optional<Map.Entry<Station, Integer>> mostFrequentStation =
           Util.countFrequencies(allStations).entrySet().stream().max(Map.Entry.comparingByValue());
-
-      //            if (mostFrequentStation.isEmpty()) {
-      //                System.out.println("mostFrequentStation ist Empty. Kann das sein?");
-      //            }
 
       Station currenServiceStation;
       currenServiceStation = mostFrequentStation.map(Map.Entry::getKey).orElse(null);
@@ -93,13 +84,16 @@ public class ServiceStationFinder {
 
   public Set<Station> findMinServiceStation(RailroadNetwork railroadNetwork) {
     List<Train> reducedTrains = reduce(railroadNetwork.getTrains());
-
     this.trains = reducedTrains;
     this.stations = new HashSet<>(this.trains.stream().map(Train::getStations).flatMap(Collection::stream).toList());
+
     List<Station> greedyUpperLimit =findMinServiceStationsGreedy(reducedTrains);
+    upperBound = greedyUpperLimit.size();
+
     System.out.println("Greedy upper limit: " + greedyUpperLimit.size() + "\n" + greedyUpperLimit);
 
-    backtrack(new HashSet<>(), greedyUpperLimit.size());
+    backtrack(new HashSet<>(), upperBound);
+
     System.out.println("Minimum Servicesations " + stations.size() + "\n" + stations);
 
     return stations;
@@ -109,6 +103,8 @@ public class ServiceStationFinder {
   private void backtrack(Set<Station> selected, int upperBound) {
     if (isCovered(selected)) {
       stations = new HashSet<>(selected);
+
+      System.out.print("\\r"+ stations.size());
       // only consider hitting sets better than the current solution and better than the solution
       // from the greedy algo
     } else if (selected.size() < upperBound && selected.size() < stations.size() - 1) {

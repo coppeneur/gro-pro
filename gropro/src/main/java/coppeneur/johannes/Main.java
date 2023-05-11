@@ -57,8 +57,8 @@ public class Main {
   public static void main(String[] args) {
     try {
       //            String [] test = new
-      // String[]{"src/main/resources/ErrorCases/B723StreckenBiszu39HaltepunkteRandom.txt"};
-      String[] test = new String[] {"src/main/resources/GreedyTest.txt"};
+//       String[]{"src/main/resources/ErrorCases/B723StreckenBiszu39HaltepunkteRandom.txt"};
+      String[] test = new String[] {"src/main/resources/test_50_50.txt"};
       handleArgs(test);
 
       Input readFile = new ReadFile(INPUT_FILE_PATH);

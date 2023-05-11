@@ -69,6 +69,7 @@ public class ReadFile implements Input {
         continue;
       }
       if (line.matches(LINE_REGEX)) {
+      //TODO
         String[] stationsArray = line.split(";");
 
         trains.add(new Train(Arrays.stream(stationsArray).map(String::strip).map(Station::new).collect(Collectors.toCollection(HashSet::new))));
