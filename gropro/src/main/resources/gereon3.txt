@@ -1,8 +1,0 @@
-A;I;Q
-A;J;I
-
-C;K;Q
-C;L;K
-
-E;M;Q
-E;N;M

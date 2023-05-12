@@ -47,10 +47,11 @@ public class ServiceStationFinder {
   private List<Train> reduce(List<Train> trains) {
     int i = 2;
     List<Train> reducedTrains = new ArrayList<>();
-    System.out.println("before reduction " + i + ": " + trains.size()+ " trains");
+    System.out.println("before reduction " + i + ": " + trains.size() + " trains");
     for (ReductionStrategy reduction : this.reducers) {
       reducedTrains = reduction.reduce(trains);
-      System.out.println("after reduction " + i+ ": " + reducedTrains.size() + " trains");
+      System.out.println(reducedTrains);
+      System.out.println("after reduction " + i + ": " + reducedTrains.size() + " trains");
       i++;
     }
     return reducedTrains;
@@ -62,9 +63,9 @@ public class ServiceStationFinder {
    * @param listoftrains list of Train of which the greedy upper limit should be determined
    * @return List of Strings, with the names of the Service-points
    */
-  private List<Station> findMinServiceStationsGreedy(List<Train> listoftrains) {
+  private Set<Station> findMinServiceStationsGreedy(List<Train> listoftrains) {
 
-    List<Station> serviceStations = new ArrayList<>();
+    Set<Station> serviceStations = new HashSet<>();
 
     List<Train> trains = listoftrains;
 
@@ -101,12 +102,13 @@ public class ServiceStationFinder {
         new HashSet<>(
             this.trains.stream().map(Train::getStations).flatMap(Collection::stream).toList());
 
-    List<Station> greedyUpperLimit = findMinServiceStationsGreedy(reducedTrains);
-    this.upperBound = greedyUpperLimit.size();
+    this.serviceStationSet = findMinServiceStationsGreedy(reducedTrains);
+    this.upperBound = this.serviceStationSet.size();
 
-    System.out.println("Greedy upper limit: " + greedyUpperLimit.size() + "\n" + greedyUpperLimit);
+    System.out.println(
+        "Greedy upper limit: " + this.serviceStationSet.size() + "\n" + this.serviceStationSet);
 
-    findMinServiceStationRek(new HashSet<>(), upperBound);
+    findMinServiceStationRek(new HashSet<>());
 
     System.out.println(
         "Minimum Servicesations " + this.serviceStationSet.size() + "\n" + serviceStationSet);
@@ -121,23 +123,19 @@ public class ServiceStationFinder {
    * skip solutions greater than upperbound
    *
    * @param selected temp Servicestations
-   * @param upperBound Upper bound
    */
-  private void findMinServiceStationRek(Set<Station> selected, int upperBound) {
+  private void findMinServiceStationRek(Set<Station> selected) {
     if (everyTrainHasServicestation(selected)) {
-
       this.serviceStationSet = new HashSet<>(selected);
       this.upperBound = this.serviceStationSet.size();
 
-    } else if (selected.size() < upperBound
-        && selected.size() < this.serviceStationSet.size() - 1) {
-
+    } else if (selected.size() < this.upperBound - 1) {
       for (Station elem : getStationsOfUnreachableTrains(selected)) {
         selected.add(elem);
         List<Train> prevTrains = this.trains;
         this.trains =
             this.trains.stream().filter(train -> !train.getStations().contains(elem)).toList();
-        findMinServiceStationRek(selected, upperBound);
+        findMinServiceStationRek(selected);
         this.trains = prevTrains;
         selected.remove(elem);
       }

@@ -1,0 +1,8 @@
+# 22 Stationen auf 7 Züge
+A;B;C;D;E;F;G;H;N
+A;I;J;K;L;M;N;Q
+I;O;Q;C;
+E;Q;X;Y;
+Y;K
+XX;H;K
+K;MM;F

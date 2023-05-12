@@ -1,5 +1,0 @@
-# Handling spaces
-# and ignoring number
-
-123A; 12;  A;B A; C ;E
-A1;

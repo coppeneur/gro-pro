@@ -1,4 +1,0 @@
-# Mehrere Züge die nicht zusammenhängen
-AC;R
-HH;H;AA
-B;EU;K

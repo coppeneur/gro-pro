@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *     <p>Strategy to reduce the amount of stations Rule: If all trains stopping at station A also
- *     stop at station B, then station A may be removed from the set of stations (and from the list
- *     of all train stops). We note that all trains stopping at DA also stop at H. According to the
- *     rule for data reduction technique 2 we are allowed to remove DA from all train connections.
- *     However, the statement cannot be reversed. That all trains stopping in H also stop in DA does
- *     not apply here. Accordingly, only station DA (and not H) may be removed.
+ * Strategy to reduce the amount of stations Rule: If all trains stopping at station A also stop at
+ * station B, then station A may be removed from the set of stations (and from the list of all train
+ * stops). We note that all trains stopping at DA also stop at H. According to the rule for data
+ * reduction technique 2 we are allowed to remove DA from all train connections. However, the
+ * statement cannot be reversed. That all trains stopping in H also stop in DA does not apply here.
+ * Accordingly, only station DA (and not H) may be removed.
  */
 public class TrainReductionStrategy implements ReductionStrategy {
   @Override

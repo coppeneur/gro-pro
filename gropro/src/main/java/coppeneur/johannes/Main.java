@@ -64,7 +64,7 @@ public class Main {
     } catch (Exception e) {
       try {
         System.out.println("\n An Error appeared: " + e);
-        Output writeFile = new WriteFile("output/" + OUTPUT_FILE_PATH);
+        Output writeFile = new WriteFile("error/" + OUTPUT_FILE_PATH);
         writeFile.writeFile(e.toString());
       } catch (Exception exception) {
         System.out.println();

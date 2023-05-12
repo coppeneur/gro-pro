@@ -1,6 +1,0 @@
-#Nromalfall
-
-A;B;C;D
-N;E;H;D
-J;K;L;M
-I;H;G;F
