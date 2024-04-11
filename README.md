@@ -1,1 +1,1 @@
-GroPro MATSE 2023
+Lösung zur großen Programmieraufgabe
