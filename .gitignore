@@ -45,4 +45,5 @@ bin/
 #### DOKU ###
 
 /doku/java-docs/
+/doku/*.pdf
 /output/
